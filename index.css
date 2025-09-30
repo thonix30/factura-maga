@@ -1,0 +1,405 @@
+/* ===================================
+   ESTILOS.CSS - LOGIN SISTEMA MAGA
+   =================================== */
+
+/* Variables de color */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --border: #e2e8f0;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-lg: rgba(0, 0, 0, 0.15);
+    --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de fondo animado */
+body::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -250px;
+    right: -250px;
+    animation: float 6s ease-in-out infinite;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    bottom: -200px;
+    left: -200px;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+/* ===================================
+   CONTAINER LOGIN
+   =================================== */
+.login-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    width: 100%;
+    max-width: 450px;
+    animation: slideUp 0.6s ease;
+    position: relative;
+    z-index: 10;
+}
+
+/* ===================================
+   HEADER DEL LOGIN
+   =================================== */
+.login-header {
+    background: var(--gradient);
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.login-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+    opacity: 0.3;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-container img {
+    max-width: 120px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 10px;
+    animation: fadeIn 0.8s ease;
+}
+
+.login-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   BODY DEL LOGIN
+   =================================== */
+.login-body {
+    padding: 40px 35px;
+}
+
+.login-body form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* ===================================
+   FORM GROUPS
+   =================================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    color: var(--dark);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* ===================================
+   INPUT WRAPPER CON ICONOS
+   =================================== */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 20px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 15px 15px 15px 50px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: var(--light);
+    color: var(--dark);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-wrapper input::placeholder {
+    color: #94a3b8;
+}
+
+/* ===================================
+   BOTÓN LOGIN
+   =================================== */
+.btn-login {
+    background: var(--gradient);
+    color: white;
+    padding: 16px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+.btn-login:active {
+    transform: translateY(-1px);
+}
+
+/* ===================================
+   FOOTER TEXT
+   =================================== */
+.footer-text {
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+/* ===================================
+   ANIMACIONES
+   =================================== */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .login-container {
+        max-width: 100%;
+    }
+
+    .login-header {
+        padding: 30px 20px;
+    }
+
+    .logo-container img {
+        max-width: 100px;
+    }
+
+    .login-header h2 {
+        font-size: 24px;
+    }
+
+    .login-body {
+        padding: 30px 25px;
+    }
+
+    .input-wrapper input {
+        padding: 14px 14px 14px 45px;
+        font-size: 14px;
+    }
+
+    .btn-login {
+        padding: 14px 25px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-header {
+        padding: 25px 15px;
+    }
+
+    .logo-container img {
+        max-width: 80px;
+    }
+
+    .login-header h2 {
+        font-size: 20px;
+    }
+
+    .login-body {
+        padding: 25px 20px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .input-wrapper input {
+        padding: 12px 12px 12px 45px;
+        font-size: 14px;
+    }
+
+    .input-icon {
+        font-size: 18px;
+        left: 12px;
+    }
+
+    .btn-login {
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+
+    .footer-text {
+        font-size: 12px;
+    }
+}
+
+/* ===================================
+   EFECTOS ADICIONALES
+   =================================== */
+
+/* Efecto de shake en inputs con error (opcional para futuro) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.input-error {
+    animation: shake 0.3s ease;
+    border-color: var(--danger) !important;
+}
+
+/* Efecto de carga en el botón (opcional para futuro) */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.btn-login.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Hover suave en el contenedor */
+.login-container:hover {
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Transición suave de color en inputs al escribir */
+.input-wrapper input:not(:placeholder-shown) {
+    border-color: var(--success);
+}
+
+/* Mejora visual para autofill del navegador */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--light) inset;
+    -webkit-text-fill-color: var(--dark);
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Sombra de profundidad en focus */
+.form-group:focus-within label {
+    color: var(--primary);
+    transition: color 0.3s ease;
+}

@@ -1,0 +1,322 @@
+/* Estilos para el sistema de abonos y créditos */
+
+.creditos-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card-small {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stat-card-small h3 {
+    font-size: 32px;
+    margin: 0 0 10px 0;
+    color: #667eea;
+}
+
+.stat-card-small p {
+    margin: 0;
+    color: #666;
+    font-weight: 500;
+}
+
+.stat-card-warning .stat-info h3 {
+    color: #ff6b6b;
+}
+
+.factura-pagada {
+    opacity: 0.6;
+    background: #f8f9fa;
+}
+
+.saldo-Pagado {
+    color: #51cf66;
+    font-weight: 700;
+}
+
+.saldo-Pendiente {
+    color: #ff6b6b;
+    font-weight: 700;
+}
+
+.saldo-Parcial {
+    color: #ffc107;
+    font-weight: 700;
+}
+
+.badge-estado-pagado {
+    background: #51cf66;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-estado-pendiente {
+    background: #ff6b6b;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-estado-parcial {
+    background: #ffc107;
+    color: #333;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-abonar {
+    background: #51cf66;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-abonar:hover {
+    background: #40c057;
+    transform: translateY(-2px);
+}
+
+.btn-historial-abonos {
+    background: #4dabf7;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-historial-abonos:hover {
+    background: #339af0;
+}
+
+.btn-creditos {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-creditos:hover {
+    background: white;
+    color: #667eea;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+.info-factura {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #667eea;
+}
+
+.info-factura p {
+    margin: 8px 0;
+    color: #333;
+}
+
+.saldo-pendiente {
+    color: #ff6b6b;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.modal-content .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-content .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.modal-content .form-group input,
+.modal-content .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.modal-content .form-group input:focus,
+.modal-content .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.modal-content .form-group small {
+    color: #666;
+    font-size: 13px;
+    display: block;
+    margin-top: 5px;
+}
+
+.info-factura-historial {
+    background: #e7f3ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4dabf7;
+}
+
+.info-factura-historial h3 {
+    margin: 0 0 15px 0;
+    color: #1971c2;
+}
+
+.info-factura-historial p {
+    margin: 8px 0;
+    color: #333;
+}
+
+.tabla-abonos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-abonos thead {
+    background: #f8f9fa;
+}
+
+.tabla-abonos th,
+.tabla-abonos td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabla-abonos tfoot {
+    background: #e7f3ff;
+    font-weight: 700;
+}
+
+.total-row td {
+    padding: 15px 12px;
+    border-top: 2px solid #667eea;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% 10px;
+        width: calc(100% - 20px);
+    }
+    
+    .creditos-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-abonar,
+    .btn-historial-abonos {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
