@@ -24,6 +24,7 @@ if (isset($_POST['agregar'])) {
     }
 }
 
+
 // Modificar usuario
 if (isset($_POST['modificar'])) {
     $id = $_POST['id'];
@@ -35,19 +36,19 @@ if (isset($_POST['modificar'])) {
     // Si se proporciona nueva contraseña
     if (!empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql = "UPDATE usuarios SET usuario = ?, usuario = ?, password = ?, nombre = ?, rol = ?, activo = ? WHERE idusuario = ?";
+        $sql = "UPDATE usuarios SET usuario = ?, password = ?, nombre = ?, rol = ?, activo = ? WHERE idusuario = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssii", $usuario, $password, $nombre, $rol, $activo, $idusuario);
+        $stmt->bind_param("ssssii", $usuario, $password, $nombre, $rol, $activo, $id);
     } else {
         $sql = "UPDATE usuarios SET usuario = ?, nombre = ?, rol = ?, activo = ? WHERE idusuario = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssii", $usuario, $nombre, $rol, $activo, $idusuario);
+        $stmt->bind_param("sssii", $usuario, $nombre, $rol, $activo, $id);
     }
     
     if ($stmt->execute()) {
         $mensaje = "✅ Usuario modificado correctamente";
     } else {
-        $mensaje = "❌ Error al modificar usuario";
+        $mensaje = "❌ Error al modificar usuario: " . $conn->error;
     }
 }
 

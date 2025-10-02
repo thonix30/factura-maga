@@ -32,7 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
     $nit = $_POST['nit'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $tipo_pago = $_POST['tipo_pago'];
+    
+    // Capturar correctamente el tipo de pago
+    $tipo_pago = isset($_POST['tipo_pago']) ? $_POST['tipo_pago'] : 'Contado';
+    
+    // Debug - Verificar el valor recibido (puedes quitar esta línea después de verificar)
+    error_log("Tipo de pago recibido: " . $tipo_pago);
+    
     $usuario_registro = $_SESSION['usuario'];
     
     $productos_seleccionados = [];
@@ -62,12 +68,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
     if(count($productos_seleccionados) > 0) {
         $productos_texto = implode(", ", $productos_seleccionados);
         
+        // Lógica corregida para el tipo de pago
         if($tipo_pago == 'Contado') {
             $saldo_pendiente = 0;
             $estado_pago = 'Pagado';
-        } else {
+        } else if($tipo_pago == 'Credito') {
             $saldo_pendiente = $total_factura;
             $estado_pago = 'Pendiente';
+        } else {
+            // Por defecto, si algo sale mal
+            $tipo_pago = 'Contado';
+            $saldo_pendiente = 0;
+            $estado_pago = 'Pagado';
         }
         
         $sql = "INSERT INTO facturas (nit, nombre, apellido, productos, total, saldo_pendiente, tipo_pago, estado_pago, usuario_registro) 
@@ -77,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
 
         if ($stmt->execute()) {
             $mensaje = "✅ Factura registrada correctamente - Total: Q" . number_format($total_factura, 2);
+            $mensaje .= " - Tipo de pago: " . $tipo_pago;
             if($tipo_pago == 'Credito') {
                 $mensaje .= " - Saldo pendiente: Q" . number_format($saldo_pendiente, 2);
             }
@@ -96,6 +109,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrador - Sistema de Factura</title>
     <link rel="stylesheet" href="dashboard-responsive.css">
+    <style>
+        /* Estilos adicionales para los radio buttons */
+        .payment-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .payment-option {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .payment-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .option-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: white;
+            min-width: 150px;
+        }
+        
+        .payment-option input[type="radio"]:checked ~ .option-card {
+            border-color: #4CAF50;
+            background: #f0f8f0;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .payment-option input[type="radio"]:checked ~ .option-card .option-icon {
+            color: #4CAF50;
+        }
+        
+        .option-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .option-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Indicador visual del tipo de pago seleccionado */
+        #tipoPagoSeleccionado {
+            background: #2196F3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .payment-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .debug-info {
+            background: #fffbea;
+            border: 1px solid #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #856404;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -234,7 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
                             <span class="invoice-date">Fecha: <?php echo date('d/m/Y'); ?></span>
                         </div>
 
-                        <form method="POST" id="formFactura" class="invoice-form">
+                        <form method="POST" id="formFactura" class="invoice-form" onsubmit="return validarFormulario()">
                             <input type="hidden" name="crear_factura" value="1">
 
                             <!-- Información del Cliente -->
@@ -297,22 +395,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
                                 </div>
 
                                 <fieldset class="form-section payment-methods">
-                                    <legend>Método de Pago</legend>
+                                    <legend>
+                                        Método de Pago
+                                        <span id="tipoPagoSeleccionado">Contado</span>
+                                    </legend>
                                     <div class="payment-options">
                                         <label class="payment-option">
-                                            <input type="radio" name="tipo_pago" value="Contado" checked>
+                                            <input type="radio" name="tipo_pago" value="Contado" checked onchange="actualizarTipoPago()">
                                             <div class="option-card">
                                                 <span class="option-icon">💵</span>
                                                 <span class="option-label">Contado</span>
                                             </div>
                                         </label>
                                         <label class="payment-option">
-                                            <input type="radio" name="tipo_pago" value="Credito">
+                                            <input type="radio" name="tipo_pago" value="Credito" onchange="actualizarTipoPago()">
                                             <div class="option-card">
                                                 <span class="option-icon">💳</span>
                                                 <span class="option-label">Crédito</span>
                                             </div>
                                         </label>
+                                    </div>
+                                    
+                                    <!-- Debug info - puedes quitarlo después de verificar -->
+                                    <div class="debug-info" style="display:none;" id="debugInfo">
+                                        Tipo de pago actual: <span id="debugTipoPago">Contado</span>
                                     </div>
                                 </fieldset>
 
@@ -341,8 +447,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
                         if($resultado_productos->num_rows > 0) {
                             $resultado_productos->data_seek(0);
                             while($row = $resultado_productos->fetch_assoc()) {
+                                $producto_escaped = addslashes($row['producto']);
                                 echo "<option value='{$row['idproducto']}' data-precio='{$row['precio']}'>";
-                                echo $row['producto'] . " - Q" . number_format($row['precio'], 2);
+                                echo "{$producto_escaped} - Q" . number_format($row['precio'], 2);
                                 echo "</option>";
                             }
                         }
@@ -390,14 +497,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_factura'])) {
             document.getElementById('totalPreview').textContent = 'Q' + total.toFixed(2);
         }
 
+        function actualizarTipoPago() {
+            const tipoPagoSeleccionado = document.querySelector('input[name="tipo_pago"]:checked').value;
+            document.getElementById('tipoPagoSeleccionado').textContent = tipoPagoSeleccionado;
+            document.getElementById('debugTipoPago').textContent = tipoPagoSeleccionado;
+            
+            // Cambiar color del indicador según el tipo
+            const indicador = document.getElementById('tipoPagoSeleccionado');
+            if(tipoPagoSeleccionado === 'Credito') {
+                indicador.style.background = '#ff9800';
+            } else {
+                indicador.style.background = '#4CAF50';
+            }
+            
+            console.log('Tipo de pago seleccionado:', tipoPagoSeleccionado);
+        }
+
+        function validarFormulario() {
+            const tipoPago = document.querySelector('input[name="tipo_pago"]:checked');
+            
+            if (!tipoPago) {
+                alert('Por favor seleccione un tipo de pago');
+                return false;
+            }
+            
+            console.log('Enviando formulario con tipo de pago:', tipoPago.value);
+            
+            // Confirmar antes de enviar (para debugging)
+            const confirmacion = confirm(`¿Confirma crear la factura con pago ${tipoPago.value}?`);
+            return confirmacion;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             calcularTotal();
+            
+            // Verificar estado inicial de los radio buttons
+            actualizarTipoPago();
             
             // Animación de entrada
             const cards = document.querySelectorAll('.nav-card, .stat-card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.05}s`;
             });
+            
+            // Listener adicional para asegurar que los radio buttons funcionen
+            document.querySelectorAll('input[name="tipo_pago"]').forEach(radio => {
+                radio.addEventListener('click', function() {
+                    console.log('Radio clicked:', this.value);
+                    actualizarTipoPago();
+                });
+            });
+        });
+
+        // Verificación adicional antes de enviar el formulario
+        document.getElementById('formFactura').addEventListener('submit', function(e) {
+            const tipoPago = document.querySelector('input[name="tipo_pago"]:checked');
+            console.log('Formulario enviándose con tipo_pago:', tipoPago ? tipoPago.value : 'NINGUNO');
         });
     </script>
 </body>
