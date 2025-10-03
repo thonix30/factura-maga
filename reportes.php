@@ -316,7 +316,7 @@ $stats_abonos = $stmt_abn->get_result()->fetch_assoc();
         </div>
 
         <!-- Reporte 5: Ventas por Usuario -->
-        <div class="reporte-card">
+        <!-- <div class="reporte-card">
             <h2>👥 Ventas por Usuario</h2>
             <div class="tabla-responsive">
                 <table>
@@ -344,7 +344,7 @@ $stats_abonos = $stmt_abn->get_result()->fetch_assoc();
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
 
         <!-- Reporte 6: Estadísticas de Abonos -->
         <div class="reporte-card">

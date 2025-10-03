@@ -1,0 +1,241 @@
+/* Estilos específicos para el sistema de facturas */
+
+/* Badges de estado */
+.badge-contado,
+.badge-credito {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-contado {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+}
+
+.badge-credito {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    color: white;
+}
+
+/* Estados de pago */
+.badge-estado-pagado,
+.badge-estado-parcial,
+.badge-estado-pendiente {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-estado-pagado {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+}
+
+.badge-estado-parcial {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+}
+
+.badge-estado-pendiente {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    color: white;
+}
+
+/* Saldos */
+.saldo-Pagado {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.saldo-Parcial {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.saldo-Pendiente {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Productos detalle */
+.productos-detalle {
+    max-width: 300px;
+    white-space: pre-wrap;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Hover effects en la tabla */
+.tabla-responsive tbody tr {
+    transition: all 0.3s ease;
+}
+
+.tabla-responsive tbody tr:hover {
+    background-color: rgba(103, 126, 234, 0.05);
+    transform: translateX(2px);
+}
+
+/* Animaciones para las estadísticas */
+.stat-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+/* Tooltips */
+.btn-reporte[title] {
+    position: relative;
+}
+
+.btn-reporte[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filtros-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .estadisticas {
+        flex-direction: column;
+    }
+    
+    .tabla-responsive {
+        overflow-x: auto;
+    }
+    
+    .tabla-responsive table {
+        min-width: 800px;
+    }
+}
+
+/* Animación de carga */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.buscador-container,
+.estadisticas,
+.tabla-card {
+    animation: fadeIn 0.5s ease;
+}
+
+.estadisticas {
+    animation-delay: 0.2s;
+}
+
+.tabla-card {
+    animation-delay: 0.4s;
+}
+
+/* Estilos de impresión mejorados */
+@media print {
+    body {
+        font-size: 12pt;
+    }
+    
+    .factura-container {
+        page-break-inside: avoid;
+    }
+    
+    .factura-header {
+        background: #667eea !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .tabla-productos th,
+    .tabla-abonos th {
+        background: #f8f9fa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .estado-badge {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* Loader para búsqueda */
+.loader {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #667eea;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mejoras en los campos de búsqueda */
+.campo-filtro input:focus,
+.campo-filtro select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Botones con efecto ripple */
+.btn-buscar,
+.btn-limpiar,
+.btn-reporte {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-buscar::before,
+.btn-limpiar::before,
+.btn-reporte::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-buscar:active::before,
+.btn-limpiar:active::before,
+.btn-reporte:active::before {
+    width: 300px;
+    height: 300px;
+}
